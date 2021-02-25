@@ -14,34 +14,15 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-require 'rails_helper'
-require 'rspec-rails'
-
-DatabaseCleaner.strategy = :truncation
-
-require 'webmock/rspec'
-WebMock.disable_net_connect!(allow_localhost: true)
+# require 'webmock/rspec'
+# WebMock.disable_net_connect!(allow_localhost: true)
 
 RSpec.configure do |config|
-
-  config.include ApiHelper, type: :api
-  config.include Requests::JsonHelpers, type: :api
-
-  # Load seeds in DB
-  config.before(:suite) do
-    Rails.application.load_seed # loading seeds
-  end
 
   # Return example files when requesting external URL
   config.before(:each) do
     # stub_url_to_status(/.+/, 404)
     # stub_url_to_file(/url_regex/, "files/index.html")
-  end
-
-  # Delete local files (ActiveStorage) & jobs after tests
-  config.after(:suite) do # or :each or :all
-    FileUtils.rm_rf(Dir["#{Rails.root}/tmp/storage/*"])
-    Sidekiq::Worker.clear_all
   end
 
   # rspec-expectations config goes here. You can use an alternate
